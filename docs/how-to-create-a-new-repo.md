@@ -47,11 +47,15 @@ $ npm update
 
 ```javascript
 "scripts": {
-    "prepush": "npm update",
     "build": "loppo --site \"[xxx] 教程\" --id [xxx] --theme wangdoc",
     "build-and-commit": "npm run build && npm run commit",
     "commit": "gh-pages --dist dist --dest dist/[xxx] --branch master --repo git@github.com:wangdoc/website.git",
     "chapter": "loppo chapter"
+},
+"husky": {
+  "hooks": {
+    "pre-push": "npm update"
+  }
 },
 ```
 
