@@ -17,7 +17,7 @@ package-lock.json
 第一步，新建`package.json`。
 
 ```bash
-$ npm init
+$ npm init -y
 ```
 
 `package.json`的`license`字段可以改成创意共享许可证（署名-相同方式共享）。
@@ -50,7 +50,8 @@ $ npm update
     "build": "loppo --site \"[xxx] 教程\" --id [xxx] --theme wangdoc",
     "build-and-commit": "npm run build && npm run commit",
     "commit": "gh-pages --dist dist --dest dist/[xxx] --branch master --repo git@github.com:wangdoc/website.git",
-    "chapter": "loppo chapter"
+    "chapter": "loppo chapter",
+    "server": "loppo server"
 },
 "husky": {
   "hooks": {
@@ -61,7 +62,7 @@ $ npm update
 
 注意，要把脚本里面的`[xxx]`替换掉。
 
-最后，本地运行`npm run build`，看看构建是否正确。
+最后，本地运行`npm run server`，看看构建是否正确。
 
 ## 持续构建
 
@@ -116,7 +117,7 @@ npm run build-and-commit
 $ cp ~/.ssh/wangdoc-deploy-rsa .
 ```
 
-然后，使用`travis`命令加密`wangdoc-deploy-rsa`。如果没有安装 travis ci 的命令行客户端，可以参考官方的[安装文档](https://github.com/travis-ci/travis.rb#installation)。
+然后，使用`travis`命令加密`wangdoc-deploy-rsa`。如果没有安装 travis ci 的命令行客户端，可以参考官方的[安装文档](https://github.com/travis-ci/travis.rb#installation)`sudo gem install travis`。
 
 ```bash
 $ travis encrypt-file ~/.ssh/wangdoc-deploy-rsa
