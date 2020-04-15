@@ -9,7 +9,6 @@
 ```javascript
 node_modules/
 dist/
-package-lock.json
 ```
 
 ## npm 模块初始化
@@ -75,11 +74,18 @@ $ npm update
 ```yml
 language: node_js
 node_js:
-- '10'
+- 'node'
 
 branches:
   only:
   - master
+
+install:
+- npm ci
+# keep the npm cache around to speed up installs
+cache:
+  directories:
+  - "$HOME/.npm"
 
 script: bash ./deploy.sh
 env:
