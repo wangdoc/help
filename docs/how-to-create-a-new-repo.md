@@ -19,30 +19,15 @@ dist/
 $ npm init -y
 ```
 
+第二步，修改`package.json`。
+
 `package.json`的`license`字段可以改成创意共享许可证（署名-相同方式共享）。
 
 ```javascript
 "license": "CC-BY-SA-4.0",
 ```
 
-第二步，安装依赖。需要以下四个库。
-
-  - loppo
-  - loppo-theme-wangdoc
-  - gh-pages
-  - husky
-
-```bash
-$ npm install --save loppo@latest loppo-theme-wangdoc@latest gh-pages husky
-```
-
-为了确保安装的是最新版本，可以打开`package.json`，将`loppo`和`loppo-theme-wangdoc`的版本改成`latest`，然后执行一下`npm update`。
-
-```bash
-$ npm update
-```
-
-第三步，打开`package.json`，在`scripts`字段下插入如下脚本。
+`scripts`字段下插入如下脚本。
 
 ```javascript
 "scripts": {
@@ -59,9 +44,37 @@ $ npm update
 },
 ```
 
-注意，要把脚本里面的`[xxx]`替换掉。
+注意，要把脚本里面的`[xxx]`替换掉，共有三处。
 
-最后，本地运行`npm run server`，看看构建是否正确。
+第三步，安装依赖。需要以下四个库。
+
+  - loppo
+  - loppo-theme-wangdoc
+  - gh-pages
+  - husky
+
+```bash
+$ npm install --save loppo@latest loppo-theme-wangdoc@latest gh-pages husky
+```
+
+为了确保安装的是最新版本，可以打开`package.json`，将`loppo`和`loppo-theme-wangdoc`的版本改成`latest`，然后执行一下`npm update`。
+
+```bash
+$ npm update
+```
+
+第四步，本地运行`npm run build && npm run server`，看看构建是否正确。
+
+第五步，写入代码仓库。
+
+```bash
+$ git add -A
+$ git commit -m "feat: first commit"
+```
+
+## GitHub
+
+在 GitHub 的 wangdoc 团队下新建仓库，然后推送本地仓库。
 
 ## 持续构建
 
@@ -117,7 +130,7 @@ ssh-add wangdoc-deploy-rsa
 npm run build-and-commit
 ```
 
-第四步，在项目根目录下，添加私钥`wangdoc-deploy-rsa`。
+第四步（待验证，可以跳过这步，直接执行下一个命令），在项目根目录下，添加私钥`wangdoc-deploy-rsa`。
 
 ```bash
 $ cp ~/.ssh/wangdoc-deploy-rsa .
