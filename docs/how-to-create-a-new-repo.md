@@ -4,9 +4,15 @@
 
 新建的文档仓库，应该命名为`xxx-tutorial`。其中，`xxx`为该仓库的主题，比如`javascript-tutorial`。
 
-将这个仓库进行 Git 初始化，然后新建`.gitignore`，写入下面的内容。
+将这个仓库进行 Git 初始化。
 
-```javascript
+```bash
+$ git init
+```
+
+然后，新建`.gitignore`，写入下面的内容。
+
+```bash
 node_modules/
 dist/
 ```
@@ -63,22 +69,91 @@ $ npm install --save loppo@latest loppo-theme-wangdoc@latest gh-pages husky
 $ npm update
 ```
 
-第四步，本地运行`npm run build && npm run server`，看看构建是否正确。
+第四步，运行`npm run chapter`，生成目录文件`chapters.yml`。
 
-第五步，写入代码仓库。
+```bash
+$ npm run chapter
+```
+
+编辑`chapters.yml`文件，使得目录编排正确。
+
+第五步，本地运行`npm run build && npm run server`，看看构建是否正确。
+
+第六步，写入代码仓库。
 
 ```bash
 $ git add -A
 $ git commit -m "feat: first commit"
 ```
 
-## GitHub
+## GitHub 仓库
 
 在 GitHub 的 wangdoc 团队下新建仓库，然后推送本地仓库。
 
-## 持续构建
+## GitHub Actions
 
-第一步，到 [Travis CI 的官网](https://travis-ci.org/organizations/wangdoc/repositories)，关联该仓库，开启自动构建。
+第一步，新建子目录`.github/workflows`。
+
+```bash
+$ mkdir -p .github/workflows
+```
+
+第三步，检查仓库设置的`secrets`里面，有没有`WANGDOC_BOT_TOKEN`这一项。如果没有，需要为 wangdoc-bot 生成一个 TOKEN 并添加在`secrets`里面。
+
+第三步，新建配置文件`wangdoc.yml`。
+
+```bash
+$ vi .github/workflows/wangdoc.yml
+```
+
+文件内容如下。
+
+```yaml
+name: [XXX] tutorial CI
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  page-generator:
+    name: Generating pages
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - name: Setup Node.js
+        uses: actions/setup-node@main
+        with:
+          node-version: '14'
+      - name: Install dependencies
+        run: npm install
+      - name: Build pages
+        run: npm run build
+      - name: Deploy to website
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GIT_CONFIG_NAME: wangdoc-bot
+          GIT_CONFIG_EMAIL: yifeng.ruan@gmail.com
+          REPOSITORY_NAME: wangdoc/website
+          ACCESS_TOKEN: ${{ secrets.WANGDOC_BOT_TOKEN }}
+          BASE_BRANCH: main
+          BRANCH: master # The branch the action should deploy to.
+          FOLDER: dist # The folder the action should deploy.
+          TARGET_FOLDER: dist/[XXX]
+          CLEAN: true # Automatically remove deleted files from the deploy branch
+          COMMIT_MESSAGE: update
+```
+
+注意，将上面的`[XXX]`改成当前库。
+
+## Travis-CI 构建
+
+注意，如果使用 GitHub Actions，则不需要设置 Travis-CI。
+
+第一步，到 [Travis CI 的官网](https://travis-ci.com/organizations/wangdoc/repositories)，关联该仓库，开启自动构建。
 
 注意，要到设置里面，把 Pull Request 触发自动构建的选项关掉。
 
