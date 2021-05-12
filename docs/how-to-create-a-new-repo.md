@@ -60,8 +60,10 @@ $ npm init -y
   - husky
 
 ```bash
-$ npm install --save loppo@latest loppo-theme-wangdoc@latest gh-pages husky
+$ npm install --save loppo@latest loppo-theme-wangdoc@latest gh-pages husky@4.3.8
 ```
+
+注意，husky 固定为 4.3.8 版本，不再升级了。
 
 为了确保安装的是最新版本，可以打开`package.json`，将`loppo`和`loppo-theme-wangdoc`的版本改成`latest`，然后执行一下`npm update`。
 
