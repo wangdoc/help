@@ -2,7 +2,7 @@
 
 ## Git 初始化
 
-新建的文档仓库，应该命名为`xxx-tutorial`。其中，`xxx`为该仓库的主题，比如`javascript-tutorial`。
+新建一个文档仓库，命名为`xxx-tutorial`。其中，`xxx`为该仓库的主题，比如`javascript-tutorial`。
 
 将这个仓库进行 Git 初始化。
 
@@ -15,6 +15,7 @@ $ git init
 ```bash
 node_modules/
 dist/
+package-lock.json
 ```
 
 ## npm 模块初始化
@@ -79,7 +80,7 @@ $ npm run chapter
 
 编辑`chapters.yml`文件，使得目录编排正确。
 
-第五步，本地运行`npm run build && npm run server`，看看构建是否正确。
+第五步，本地运行`npm run server`，看看构建是否正确。
 
 第六步，写入代码仓库。
 
@@ -146,7 +147,7 @@ jobs:
           FOLDER: dist # The folder the action should deploy.
           TARGET_FOLDER: dist/[XXX]
           CLEAN: true # Automatically remove deleted files from the deploy branch
-          COMMIT_MESSAGE: update
+          COMMIT_MESSAGE: update from [XXX] tutorial
 ```
 
 注意，将上面的`[XXX]`改成当前库。
