@@ -44,27 +44,19 @@ $ npm init -y
     "chapter": "loppo chapter",
     "server": "loppo server"
 },
-"husky": {
-  "hooks": {
-    "pre-push": "npm update"
-  }
-},
 ```
 
 注意，要把脚本里面的`[xxx]`替换掉，共有三处。
 
-第三步，安装依赖。需要以下四个库。
+第三步，安装依赖。需要以下三个库。
 
   - loppo
   - loppo-theme-wangdoc
   - gh-pages
-  - husky
 
 ```bash
-$ npm install --save loppo@latest loppo-theme-wangdoc@latest gh-pages husky@4.3.8
+$ npm install --save loppo@latest loppo-theme-wangdoc@latest gh-pages
 ```
-
-注意，husky 固定为 4.3.8 版本，不再升级了。
 
 为了确保安装的是最新版本，可以打开`package.json`，将`loppo`和`loppo-theme-wangdoc`的版本改成`latest`，然后执行一下`npm update`。
 
@@ -121,20 +113,43 @@ on:
 jobs:
   page-generator:
     name: Generating pages
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@main
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: 'latest'
       - name: Install dependencies
         run: npm install
       - name: Build pages
         run: npm run build
+      - name: Deploy to website
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          git-config-name: wangdoc-bot
+          git-config-email: yifeng.ruan@gmail.com
+          repository-name: wangdoc/website
+          token: ${{ secrets.WANGDOC_BOT_TOKEN }}
+          branch: master # The branch the action should deploy to.
+          folder: dist # The folder the action should deploy.
+          target-folder: dist/[xxx]
+          clean: true # Automatically remove deleted files from the deploy branch
+          commit-message: update from [xxx] tutorial
+```
+
+注意：
+
+（1）将上面的`[XXX]`改成当前库，共有三处。
+
+（2）上面的部署`token`，只有公开库才能拿到，免费账户的私有库不能获取这个 token。
+
+如果`JamesIves/github-pages-deploy-action`使用 3.7.1 的老版，原始设置如下。
+
+```yaml
       - name: Deploy to website
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
@@ -142,15 +157,13 @@ jobs:
           GIT_CONFIG_EMAIL: yifeng.ruan@gmail.com
           REPOSITORY_NAME: wangdoc/website
           ACCESS_TOKEN: ${{ secrets.WANGDOC_BOT_TOKEN }}
-          BASE_BRANCH: main
+          BASE_BRANCH: master
           BRANCH: master # The branch the action should deploy to.
           FOLDER: dist # The folder the action should deploy.
-          TARGET_FOLDER: dist/[XXX]
+          TARGET_FOLDER: dist/[xxx]
           CLEAN: true # Automatically remove deleted files from the deploy branch
-          COMMIT_MESSAGE: update from [XXX] tutorial
+          COMMIT_MESSAGE: update from [xxx] tutorial
 ```
-
-注意，将上面的`[XXX]`改成当前库。
 
 ## Travis-CI 构建
 
@@ -230,7 +243,7 @@ $ rm wangdoc-deploy-rsa
 
 ## Disqus 讨论区
 
-第一步，到 Disqus 新建讨论区，讨论区的 slug 为`wangdoc-[id]`。
+第一步，到 Disqus 新建讨论区，讨论区的 slug （shortname）为`wangdoc-[id]`。
 
 第二步，设好 Disqus 以后，在`loppo.yml`里面设定如下设置。
 
