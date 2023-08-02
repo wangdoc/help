@@ -241,6 +241,16 @@ $ travis encrypt-file ~/.ssh/wangdoc-deploy-rsa
 $ rm wangdoc-deploy-rsa
 ```
 
+## loppo.yml
+
+在 loppo.yml 里面加入文档仓库所在的分支。
+
+```yaml
+branch: main
+```
+
+如果不加 branch 字段，默认值为`master`。
+
 ## Disqus 讨论区
 
 第一步，到 Disqus 新建讨论区，讨论区的 slug （shortname）为`wangdoc-[id]`。
