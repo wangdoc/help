@@ -34,6 +34,8 @@ $ npm init -y
 "license": "CC-BY-SA-4.0",
 ```
 
+`author`字段改成“Ruan Yifeng”。
+
 `scripts`字段下插入如下脚本。
 
 ```javascript
@@ -71,6 +73,8 @@ $ npm run chapter
 ```
 
 编辑`chapters.yml`文件，使得目录编排正确。
+
+然后，运行`npm run build`，生成`loppo.yml`文件。
 
 第五步，本地运行`npm run server`，看看构建是否正确。
 
@@ -116,11 +120,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 'latest'
       - name: Install dependencies
@@ -253,7 +257,7 @@ branch: main
 
 ## Disqus 讨论区
 
-第一步，到 Disqus 新建讨论区，讨论区的 slug （shortname）为`wangdoc-[id]`。
+第一步，到 Disqus 新建讨论区，讨论区的 slug （shortname）为`wangdoc-[id]`（需要点击链接“customize your url”）。
 
 第二步，设好 Disqus 以后，在`loppo.yml`里面设定如下设置。
 
